@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "Items", type: :request do
-  before do
-    u1 = User.create(username: "Dwayne", city: "Los Angeles")
-    u1.items.create(name: "Non-stick pan", description: "Sticks a bit", price: 10)
+  let!(:user) do
+    User.create(username: "Dwayne", city: "Los Angeles")
+  end
+
+  let!(:item) do
+    user.items.create(name: "Non-stick pan", description: "Sticks a bit", price: 10)
   end
 
   describe "GET /items" do
@@ -17,7 +20,7 @@ RSpec.describe "Items", type: :request do
           description: "Sticks a bit", 
           price: 10,
           user: {
-            id: a_kind_of(Integer),
+            id: user.id,
             username: "Dwayne",
             city: "Los Angeles"
           }
